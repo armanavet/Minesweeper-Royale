@@ -62,10 +62,11 @@ public class CharacterController : MonoBehaviour
         Ray ray = new Ray(transform.position, -transform.up);
         RaycastHit hit;
         if (Physics.SphereCast(ray, 0.2f, out hit)) {
+            Debug.Log(hit.transform.name);
             GameObject hitObject = hit.transform.gameObject;
             Brick brick = hitObject.GetComponent<Brick>();
             if (brick != null) {
-                brick.ShowSecret();
+                brick.ShowSecret(true);
 
                 if (brick.mine && mPreviousBrick != null) {
                     //mMeshAgent.SetDestination(mPreviousBrick.transform.position);
@@ -97,5 +98,13 @@ public class CharacterController : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Finish"))
+        {
+            lost = true;
+            anim.SetTrigger("cheer");
+            Destroy(other.gameObject);
+        }    
+    }
 }

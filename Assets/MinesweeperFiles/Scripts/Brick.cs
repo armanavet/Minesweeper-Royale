@@ -62,9 +62,9 @@ public class Brick : MonoBehaviour
         Debug.Log($"{mNeighbors.Count} neighbors");
     }
 
-    public void ShowSecret()
+    public void ShowSecret(bool reveal)
     {
-        if (mShowed) return;
+        //if (mShowed) return;
 
         mShowed = true;
 
@@ -79,10 +79,22 @@ public class Brick : MonoBehaviour
             });
             name = $"Tile{num}";
             FindObjectOfType<CharacterController>().currentTile = num;
+            if(num==0&& reveal)
+            {
+                RevealNeighbors();
+            }
         }
 
         Sprite sprite;
         if (mTileImages.TryGetValue(name, out sprite))
             tile.sprite = sprite;
+    }
+
+    void RevealNeighbors()
+    {
+        foreach (var n in mNeighbors)
+        {
+            n.ShowSecret(false);
+        }
     }
 }
