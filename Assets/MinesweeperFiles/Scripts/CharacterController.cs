@@ -142,11 +142,13 @@ public class CharacterController : MonoBehaviour
 
     IEnumerator Throw(Brick brick)
     {
+        
         anim.SetTrigger("throw");
         var projectile = Instantiate(rock, transform.position, Quaternion.identity);
         projectile.Target = brick.transform.position+Vector3.up*2;
         projectile.Hurl();
         throwMode = false;
+        ThrowButton.GetComponent<Ability>().StartCoolDown();
         foreach (var target in PossibleTargets)
         {
             target.IsTarget = false;
