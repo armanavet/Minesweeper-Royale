@@ -23983,7 +23983,7 @@ GameObject:
   - component: {fileID: 1102996193}
   - component: {fileID: 1102996192}
   - component: {fileID: 1102996196}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Flag
   m_TagString: Finish
   m_Icon: {fileID: 0}
@@ -47678,7 +47678,7 @@ GameObject:
   - component: {fileID: 2019800305}
   - component: {fileID: 2019800304}
   - component: {fileID: 2019800303}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
