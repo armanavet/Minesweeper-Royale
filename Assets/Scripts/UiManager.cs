@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,10 +26,14 @@ public class UiManager : MonoBehaviour
 
     public void Lose()
     {
+        PhotonNetwork.Disconnect();
+        Debug.Log("Lose call came");
         LoseScreen.SetActive(true);
     }
     public void Win()
     {
+        PhotonNetwork.Disconnect();
+        Debug.Log("Win call came");
         WinScreen.SetActive(true);
     }
 

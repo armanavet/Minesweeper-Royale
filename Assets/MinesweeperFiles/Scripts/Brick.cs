@@ -62,7 +62,7 @@ public class Brick : MonoBehaviour
             }
         }
 
-        Debug.Log($"{mNeighbors.Count} neighbors");
+//        Debug.Log($"{mNeighbors.Count} neighbors");
     }
 
     public void ShowSecret(bool reveal)
