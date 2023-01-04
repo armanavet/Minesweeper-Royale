@@ -108,7 +108,7 @@ public class CharacterController : MonoBehaviour
                         lost = true;
                         rb.AddExplosionForce(explForce, rb.position, 2);
                         //Instantiate(ExplosionEffect, transform.position,new Quaternion());
-                        Invoke("Restart", 2);
+                        Invoke("Lose", 2);
                     }
                 }
 
@@ -122,8 +122,7 @@ public class CharacterController : MonoBehaviour
 
     public void EnterThrowMode()
     {
-        anim.SetTrigger("ready");
-        throwMode = true;
+        
         var bricks = FindObjectsOfType<Brick>();
         PossibleTargets = new List<Brick>();
         foreach (var brick in bricks)
@@ -133,6 +132,11 @@ public class CharacterController : MonoBehaviour
                 PossibleTargets.Add(brick);
                 brick.IsTarget = true;
             }
+        }
+        if (PossibleTargets.Count > 0)
+        {
+            anim.SetTrigger("ready");
+            throwMode = true;
         }
     }
 
@@ -158,7 +162,14 @@ public class CharacterController : MonoBehaviour
         
     }
 
-
+    void Win()
+    {
+        FindObjectOfType<UiManager>().Win();
+    }
+    void Lose()
+    {
+        FindObjectOfType<UiManager>().Lose();
+    }
 
     void Restart()
     {
@@ -173,7 +184,7 @@ public class CharacterController : MonoBehaviour
             anim.SetTrigger("cheer");
             Destroy(other.gameObject);
             Instantiate(Fireworks, other.transform.position, Quaternion.identity);
-            Invoke("Restart", 2);
+            Invoke("Win", 2);
         }    
     }
 
