@@ -27,6 +27,7 @@ public class CharacterController : MonoBehaviour
     public GameObject ThrowButton;
     List<Brick> PossibleTargets;
     public float ThrowDist;
+    public throwable rock;
     // Start is called before the first frame update
     void Start()
     {
@@ -134,6 +135,9 @@ public class CharacterController : MonoBehaviour
 
     public void Throw(Brick brick)
     {
+        var projectile = Instantiate(rock, transform.position, Quaternion.identity);
+        projectile.Target = brick.transform.position+Vector3.up*2;
+        projectile.Hurl();
         brick.ShowSecret(true);
         if(brick.mine)
         {
@@ -146,6 +150,8 @@ public class CharacterController : MonoBehaviour
         }
         throwMode = false;
     }
+
+
 
     void Restart()
     {

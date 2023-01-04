@@ -76,6 +76,7 @@ public class Brick : MonoBehaviour
         if (mine) {
             name = "TileMine";
             Instantiate(ExplosionEffect, transform.position + Vector3.up * 2, Quaternion.identity);
+            //Invoke("RevealNeighbors", 0.5f);
         } 
         else {
             int num = 0;
@@ -100,7 +101,8 @@ public class Brick : MonoBehaviour
     {
         foreach (var n in mNeighbors)
         {
-            n.ShowSecret(n.mine);
+            if(!n.mShowed)
+                n.ShowSecret(n.mine);
         }
     }
 }

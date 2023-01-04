@@ -49205,6 +49205,7 @@ MonoBehaviour:
   throwMode: 0
   ThrowButton: {fileID: 848808413}
   ThrowDist: 5
+  rock: {fileID: 61364857617786060, guid: ef678ca828b551b4da043f8a4a0b3953, type: 3}
 --- !u!195 &2072713454
 NavMeshAgent:
   m_ObjectHideFlags: 0
