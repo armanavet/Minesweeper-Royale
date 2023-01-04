@@ -17,6 +17,12 @@ public class BotManager : MonoBehaviour
         GameManager.onGameOver -= GameManagerOnonGameOver;
     }
 
+    private void Start()
+    {
+        for (int i = 0; i < allBots.Length; i++)
+            allBots[i].smartness *= GetPlayerCurrentElo();
+    }
+
     public void GameManagerOnonGameOver(bool isWin)
     {
         int mult = isWin ? 1 : -1;

@@ -9,8 +9,7 @@ using Random = UnityEngine.Random;
 
 public class Bot : MonoBehaviour
 {
-    [Range(1,100)]
-    [SerializeField] private int smartness;
+    [SerializeField] internal float smartness;
     public int blood = 5;
 
     private NavMeshAgent mMeshAgent;
@@ -87,7 +86,6 @@ public class Bot : MonoBehaviour
                      mMeshAgent.SetDestination(target.transform.position);
                  }
 
-                anim.SetBool("run", mMeshAgent.velocity != Vector3.zero);
                 DetectMine();
                 if (target == finalBlock)
                 {
@@ -96,14 +94,12 @@ public class Bot : MonoBehaviour
                 }
             }
            
+            anim.SetBool("run", mMeshAgent.velocity != Vector3.zero);
         }
 
     }
-
-    private List<Brick> allShowableBlocks_Debug = new List<Brick>();
     Brick GetClosestBlock()
     {
-        allShowableBlocks_Debug.Clear();
         Brick closeBlock = null;
         bool fromStart = Vector3.Distance(finalBlock.transform.position, mCurrentBrick.mNeighbors[0].transform.position) <  
                          Vector3.Distance(finalBlock.transform.position, mCurrentBrick.mNeighbors[mCurrentBrick.mNeighbors.Count-1].transform.position);
@@ -123,7 +119,6 @@ public class Bot : MonoBehaviour
                         closeBlock = mCurrentBrick.mNeighbors[i];
                         shortDist = Vector3.Distance(finalBlock.transform.position,
                             mCurrentBrick.mNeighbors[i].transform.position);
-                        allShowableBlocks_Debug.Add(closeBlock);
                     }
                     else
                     {
@@ -135,7 +130,6 @@ public class Bot : MonoBehaviour
                             closeBlock = mCurrentBrick.mNeighbors[i];
                             shortDist = dist;
                             
-                            allShowableBlocks_Debug.Add(closeBlock);
                         }
                     }
 
