@@ -106,12 +106,19 @@ public class Bot : MonoBehaviour
 
         float shortDist = Mathf.Infinity;
 
-        if (smartness < 35)
+        if (smartness < 20)
             fromStart = !fromStart;
 
+        float bombChance = Random.Range(0, 100);
             for (int i = fromStart ? 0 : mCurrentBrick.mNeighbors.Count-1; 
                  fromStart ? i < mCurrentBrick.mNeighbors.Count : i >=0;)
             {
+                if (smartness < 20)
+                {
+                    if (bombChance < 10 && mCurrentBrick.mNeighbors[i].mine)
+                        return mCurrentBrick.mNeighbors[i];
+                }
+
                 if (!mCurrentBrick.mNeighbors[i].mine && !VisitedBricks.Contains(mCurrentBrick.mNeighbors[i]))
                 {
                     if (closeBlock == null)
@@ -143,7 +150,7 @@ public class Bot : MonoBehaviour
             }
      
 
-        return closeBlock;
+        return mCurrentBrick.mNeighbors[0];
     }
 
     private void DetectMine()
@@ -165,7 +172,6 @@ public class Bot : MonoBehaviour
                         lost = true;
                         rb.AddExplosionForce(explForce, rb.position, 2);
                         Instantiate(ExplosionEffect, transform.position,new Quaternion());
-                        Invoke("Restart", 2);
                     }
                 }
 
