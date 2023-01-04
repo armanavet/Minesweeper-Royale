@@ -75,7 +75,8 @@ public class CharacterController : MonoBehaviour
                     Brick brick = hitObject.GetComponent<Brick>();
                     if (brick != null&&brick.IsTarget)
                     {
-                        Throw(brick);
+
+                        StartCoroutine(Throw(brick));
                     }
                 }
             }
@@ -120,6 +121,7 @@ public class CharacterController : MonoBehaviour
 
     public void EnterThrowMode()
     {
+        anim.SetTrigger("ready");
         throwMode = true;
         var bricks = FindObjectsOfType<Brick>();
         PossibleTargets = new List<Brick>();
@@ -133,22 +135,26 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    public void Throw(Brick brick)
+    IEnumerator Throw(Brick brick)
     {
+        anim.SetTrigger("throw");
         var projectile = Instantiate(rock, transform.position, Quaternion.identity);
         projectile.Target = brick.transform.position+Vector3.up*2;
         projectile.Hurl();
+        throwMode = false;
+        foreach (var target in PossibleTargets)
+        {
+            target.IsTarget = false;
+        }
+        yield return new WaitForSeconds(0.2f);
         brick.ShowSecret(true);
         if(brick.mine)
         {
             Instantiate(ExplosionEffect, brick.transform.position + Vector3.up *2, Quaternion.identity);
             brick.RevealNeighbors();
         }
-        foreach (var target in PossibleTargets)
-        {
-            target.IsTarget = false;
-        }
-        throwMode = false;
+        
+        
     }
 
 
