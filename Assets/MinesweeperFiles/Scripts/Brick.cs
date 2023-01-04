@@ -15,8 +15,10 @@ public class Brick : MonoBehaviour
 
     public List<Brick> mNeighbors;
 
-    private bool mShowed = false;
-
+    public bool mShowed = false;
+    public GameObject TargetGraphic;
+    public bool IsTarget = false;
+    public GameObject ExplosionEffect;
     public static void BuildSpritesMap()
     {
         if (mTileImages == null) {
@@ -31,13 +33,14 @@ public class Brick : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         BuildSpritesMap();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        TargetGraphic.SetActive(IsTarget);
     }
 
     void OnValidate()
@@ -65,14 +68,16 @@ public class Brick : MonoBehaviour
     public void ShowSecret(bool reveal)
     {
         //if (mShowed) return;
-
+        IsTarget = false;
         mShowed = true;
 
         string name;
 
         if (mine) {
             name = "TileMine";
-        } else {
+            Instantiate(ExplosionEffect, transform.position + Vector3.up * 2, Quaternion.identity);
+        } 
+        else {
             int num = 0;
             mNeighbors.ForEach(brick => {
                 if (brick.mine) num += 1;
@@ -83,6 +88,7 @@ public class Brick : MonoBehaviour
             {
                 RevealNeighbors();
             }
+ 
         }
 
         Sprite sprite;
@@ -90,11 +96,11 @@ public class Brick : MonoBehaviour
             tile.sprite = sprite;
     }
 
-    void RevealNeighbors()
+    public void RevealNeighbors()
     {
         foreach (var n in mNeighbors)
         {
-            n.ShowSecret(false);
+            n.ShowSecret(n.mine);
         }
     }
 }
