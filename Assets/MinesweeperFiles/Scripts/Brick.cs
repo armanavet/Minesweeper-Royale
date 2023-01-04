@@ -22,7 +22,7 @@ public class Brick : MonoBehaviour
     public static void BuildSpritesMap()
     {
         if (mTileImages == null) {
-            Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/MinesweeperSpritesheet");
+            Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/MinesweeperSpritesheet2");
             mTileImages = new Dictionary<string, Sprite>();
             for (int i = 0; i < sprites.Length; i++) {
                 mTileImages.Add(sprites[i].name, (Sprite) sprites[i]);

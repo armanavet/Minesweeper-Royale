@@ -28,6 +28,7 @@ public class CharacterController : MonoBehaviour
     List<Brick> PossibleTargets;
     public float ThrowDist;
     public throwable rock;
+    public GameObject Fireworks;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,11 +42,11 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
         Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, throwMode ? 90 : 60, Time.deltaTime * 10);
-        ThrowButton.SetActive(!throwMode);
+        ThrowButton.SetActive(!throwMode&&!lost);
         if(!lost&&!throwMode)
         {
-            currentText.text = currentTile.ToString();
-            currentText.gameObject.SetActive(!lost);
+            //currentText.text = currentTile.ToString();
+            //currentText.gameObject.SetActive(!lost);
             if (Input.GetMouseButtonDown(0)&& !IsPointerOverUIObject())
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -171,6 +172,8 @@ public class CharacterController : MonoBehaviour
             lost = true;
             anim.SetTrigger("cheer");
             Destroy(other.gameObject);
+            Instantiate(Fireworks, other.transform.position, Quaternion.identity);
+            Invoke("Restart", 2);
         }    
     }
 
