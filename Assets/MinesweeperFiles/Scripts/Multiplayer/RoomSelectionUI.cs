@@ -22,7 +22,7 @@ public class RoomSelectionUI : MonoBehaviourPunCallbacks
 
     [SerializeField] private TextMeshProUGUI statusText, startsInText;
 
-    [SerializeField] private GameObject restUI, playBlocker;
+    [SerializeField] internal GameObject restUI, playBlocker;
     [SerializeField] private GameObject RoomJoinUI;
     [SerializeField] private TMP_InputField roomNameInputField;
     public PhotonView photonView;
@@ -196,12 +196,26 @@ public class RoomSelectionUI : MonoBehaviourPunCallbacks
 
        // statusText.text = newPlayer.NickName + " Left room: " + PhotonNetwork.CurrentRoom.Name;
     }
-    public override void OnDisconnected(DisconnectCause cause){
+
+    public void DisableTexts()
+    {
+        startsInText.gameObject.SetActive(false);
+        statusText.gameObject.SetActive(false);
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+
+        if (GameManager.GetGameStatus() == GameStatus.gameOver)
+            return;
         if(cause!=DisconnectCause.DisconnectByClientLogic)
             Log("Photon error: " + cause);
         Debug.Log("On Disconnected");
         
+       statusText.gameObject.SetActive(false);
+       startsInText.gameObject.SetActive(false);
        
+       FindObjectOfType<UiManager>().Lose();
     }
 
     void Log(string x)
@@ -260,5 +274,11 @@ public class RoomSelectionUI : MonoBehaviourPunCallbacks
     {
         if(photonView.IsMine)
             SceneManager.LoadScene(0);
+    }
+
+    public void OnCloseButtonClicked()
+    {
+        PhotonNetwork.Disconnect();
+        SceneManager.LoadScene(0);
     }
 }

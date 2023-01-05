@@ -26,15 +26,26 @@ public class UiManager : MonoBehaviour
 
     public void Lose()
     {
+        GameManager.ChangeGameStatus(GameStatus.gameOver);
         PhotonNetwork.Disconnect();
         Debug.Log("Lose call came");
         LoseScreen.SetActive(true);
+        
+        RoomSelectionUI roomUI = GameObject.FindObjectOfType<RoomSelectionUI>();
+        if(roomUI != null)
+            roomUI.DisableTexts();
+        
     }
     public void Win()
     {
+        GameManager.ChangeGameStatus(GameStatus.gameOver);
         PhotonNetwork.Disconnect();
         Debug.Log("Win call came");
         WinScreen.SetActive(true);
+        
+        RoomSelectionUI roomUI = GameObject.FindObjectOfType<RoomSelectionUI>();
+        if(roomUI != null)
+            roomUI.DisableTexts();
     }
 
     public void Restart()
